@@ -7,6 +7,7 @@ struct GLFWwindow;
 namespace csopesy {
 
 class Desktop;
+class Taskbar;
 
 class GUIApplication {
 public:
@@ -25,6 +26,7 @@ private:
 
     GLFWwindow* m_window = nullptr;
     std::shared_ptr<Desktop> m_desktop;
+    std::shared_ptr<Taskbar> m_taskbar;
 };
 
 } // namespace csopesy

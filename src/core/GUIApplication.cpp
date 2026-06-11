@@ -2,6 +2,7 @@
 #include "UIConfig.h"
 #include "UIManager.h"
 #include "components/desktop/Desktop.h"
+#include "components/taskbar/Taskbar.h"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -93,6 +94,8 @@ void GUIApplication::startSystemServices() {
     m_desktop = std::make_shared<Desktop>();
     UIManager::getInstance().registerWindow("desktop", m_desktop);
     UIManager::getInstance().showWindow("desktop");
+
+    m_taskbar = std::make_shared<Taskbar>();
 }
 
 void GUIApplication::run() {
@@ -106,6 +109,7 @@ void GUIApplication::run() {
 
         m_desktop->draw();
         UIManager::getInstance().renderAllWindows();
+        m_taskbar->draw();
 
         ImGui::Render();
 
