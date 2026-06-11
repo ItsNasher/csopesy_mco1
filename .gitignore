@@ -71,3 +71,6 @@ Testing/
 # agentic environment
 .opencode/
 openspec/
+
+# ImGui runtime config
+imgui.ini
