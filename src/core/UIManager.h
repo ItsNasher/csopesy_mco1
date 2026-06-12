@@ -16,6 +16,8 @@ public:
     void registerWindow(const std::string& name, std::shared_ptr<AWindow> window);
     void showWindow(const std::string& name);
     void hideWindow(const std::string& name);
+    void toggleWindow(const std::string& name);
+    bool isWindowShown(const std::string& name) const;
 
     void renderAllWindows();
 
