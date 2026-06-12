@@ -3,6 +3,9 @@
 #include "UIManager.h"
 #include "components/desktop/Desktop.h"
 #include "components/taskbar/Taskbar.h"
+#include "components/taskmanager/TaskManager.h"
+#include "components/settings/SettingsWindow.h"
+#include "components/files/FilesWindow.h"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -73,7 +76,7 @@ void GUIApplication::kernelInit() {
     GLFWmonitor* monitor = glfwGetPrimaryMonitor();
     if (monitor) {
         const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-        monitorWidth = mode->width;
+        monitorWidth  = mode->width;
         monitorHeight = mode->height;
     } else {
         glfwGetWindowSize(m_window, &monitorWidth, &monitorHeight);
@@ -91,6 +94,16 @@ void GUIApplication::startSystemServices() {
     m_taskbar = std::make_shared<Taskbar>();
     UIManager::getInstance().registerWindow("taskbar", m_taskbar);
     UIManager::getInstance().showWindow("taskbar");
+
+    m_taskManager = std::make_shared<TaskManager>();
+    UIManager::getInstance().registerWindow("taskmanager", m_taskManager);
+    // hidden by default — opened via taskbar button
+
+    m_settingsWindow = std::make_shared<SettingsWindow>();
+    UIManager::getInstance().registerWindow("settings", m_settingsWindow);
+
+    m_filesWindow = std::make_shared<FilesWindow>();
+    UIManager::getInstance().registerWindow("files", m_filesWindow);
 }
 
 void GUIApplication::run() {
@@ -101,7 +114,11 @@ void GUIApplication::run() {
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
+        // Draw order: background first, floating windows, taskbar on top
         m_desktop->draw();
+        m_filesWindow->draw();
+        m_settingsWindow->draw();
+        m_taskManager->draw();
         m_taskbar->draw();
 
         ImGui::Render();

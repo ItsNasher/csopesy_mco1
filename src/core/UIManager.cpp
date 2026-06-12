@@ -30,6 +30,19 @@ void UIManager::hideWindow(const std::string& name) {
     }
 }
 
+void UIManager::toggleWindow(const std::string& name) {
+    auto it = windows.find(name);
+    if (it != windows.end()) {
+        if (it->second->isShown()) it->second->hide();
+        else                       it->second->show();
+    }
+}
+
+bool UIManager::isWindowShown(const std::string& name) const {
+    auto it = windows.find(name);
+    return (it != windows.end()) && it->second->isShown();
+}
+
 void UIManager::renderAllWindows() {
     for (auto& [name, window] : windows) {
         if (window->isShown()) {
